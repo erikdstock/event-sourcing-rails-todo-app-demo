@@ -4,7 +4,7 @@
 # After create, it calls `apply` to apply changes.
 #
 # Subclasses must define the `apply` method.
-class Lib::BaseEvent < ActiveRecord::Base
+class Lib::BaseEvent < ApplicationRecord
   serialize :data, JSON
   serialize :metadata, JSON
 
@@ -15,7 +15,7 @@ class Lib::BaseEvent < ActiveRecord::Base
   self.abstract_class = true
 
   # Not using `created_at` as MySQL timestamps don't include ms.
-  scope :recent_first, -> { reorder('id DESC')}
+  scope :recent_first, -> { reorder('id DESC') }
 
   # Apply the event to the aggregate passed in.
   # Must return the aggregate.
@@ -99,7 +99,8 @@ class Lib::BaseEvent < ActiveRecord::Base
 
   def self.aggregate_name
     inferred_aggregate = reflect_on_all_associations(:belongs_to).first
-    raise "Events must belong to an aggregate" if inferred_aggregate.nil?
+    raise 'Events must belong to an aggregate' if inferred_aggregate.nil?
+
     inferred_aggregate.name
   end
 
@@ -108,11 +109,10 @@ class Lib::BaseEvent < ActiveRecord::Base
   # Underscored class name by default. ex: "post/updated"
   # Used when sending events to the data pipeline
   def self.event_name
-    self.name.sub("Events::", '').underscore
+    name.sub('Events::', '').underscore
   end
 
   private def dispatch
     Events::Dispatcher.dispatch(self)
   end
 end
-

@@ -56,9 +56,9 @@ module Lib
         attr_reader(*args)
 
         initialize_method_arguments = args.map { |arg| "#{arg}:" }.join(', ')
-        initialize_method_body = args.map { |arg| "@#{arg} = #{arg}" }.join(";")
+        initialize_method_body = args.map { |arg| "@#{arg} = #{arg}" }.join(';')
 
-        class_eval <<~CODE
+        class_eval <<~CODE, __FILE__, __LINE__ + 1
           def initialize(#{initialize_method_arguments})
             #{initialize_method_body}
             after_initialize
@@ -69,7 +69,7 @@ module Lib
 
     def call
       return nil if event.nil?
-      raise "The event should not be persisted at this stage!" if event.persisted?
+      raise 'The event should not be persisted at this stage!' if event.persisted?
 
       validate!
       execute!

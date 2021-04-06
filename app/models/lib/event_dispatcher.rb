@@ -75,4 +75,3 @@ class Lib::EventDispatcher
     end
   end
 end
-

@@ -1,9 +1,10 @@
+# rubocop:disable
 class AccountAggregate
   attr_reader :user, :amount
 
   def initialize(user:, amount:)
-    raise ArgumentError, 'user must be a string' unless user.class == String
-    raise ArgumentError, 'amount must be a number' unless amount.to_f.class == Float
+    raise ArgumentError, 'user must be a string' unless user.instance_of?(String)
+    raise ArgumentError, 'amount must be a number' unless amount.to_f.instance_of?(Float)
 
     @user = user
     @amount = amount.to_f
@@ -14,7 +15,7 @@ class AccountAggregate
   end
 
   def copy(**args)
-    new_args = {user: user, amount: amount}.merge(args)
+    new_args = { user: user, amount: amount }.merge(args)
     self.class.new(new_args)
   end
 end
@@ -27,6 +28,7 @@ end
 
 class CreateAccount < BaseEvent
   attr_reader :user
+
   STARTING_AMOUNT = 0
 
   def initialize(user)
@@ -38,9 +40,10 @@ class CreateAccount < BaseEvent
     AccountAggregate.new(user: user, amount: STARTING_AMOUNT)
   end
 end
- 
+
 class AddToAccount < BaseEvent
   attr_reader :amount
+
   def initialize(amount)
     @amount = amount
   end
@@ -53,6 +56,7 @@ end
 
 class SubtractFromAccount < BaseEvent
   attr_reader :amount
+
   def initialize(amount)
     @amount = amount
   end
@@ -73,10 +77,3 @@ account = [e1, e2, e3].inject(nil) do |aggregate, event|
   event.apply(aggregate)
 end
 puts account
-`opening a new account for erik`
-`adding 50 to erik's account`
-`subtracting 42 from erik's account`
-<AccountAggregate:0x00007f8bb11a75b8 @amount=8, @user="erik">
-
-# => #<AddToAccount:0x00007f8bb117cd90 @amount=50>
-# => #<SubtractFromAccount:0x00007f8b8781e1a0 @amount=42>

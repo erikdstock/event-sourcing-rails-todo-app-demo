@@ -8,7 +8,7 @@ class EventsController < Grape::API
   post :events do
     event_type = params[:type]
     error!({ message: 'event.type must inherit from Lib::BaseEvent' }, 401) unless event_type
-    klass = ('Events::' + event_type).classify&.constantize
+    klass = "Events::#{event_type}".classify&.constantize
     unless klass&.ancestors&.include? Lib::BaseEvent
       error!({ message: 'event.type must inherit from Lib::BaseEvent' }, 401)
     end
