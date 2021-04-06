@@ -5,7 +5,7 @@ A fork of kickstarter's minimal event sourcing framework example app (based on t
 - Kickstarter's initial app
 - Rspec for testing
 - Rubocop config to pacify my text editor
-- [Grape API](https://github.com/ruby-grape/grape), initially with a single `POST /api/events` route.
+- [Grape API](https://github.com/ruby-grape/grape)
 
 ## Usage
 
@@ -17,7 +17,7 @@ bundle exec rake db:setup
 bundle exec rails s
 ```
 
-Make a request
+Make some requests
 
 ```
 POST http://localhost:3000/api/events
@@ -25,6 +25,8 @@ POST http://localhost:3000/api/events
     "type": "TodoList::Created",
     "body": {"name": "My todos"}
 }
+
+GET http://localhost:3000/api/lists/1
 ```
 
 This project is licensed under the terms of the MIT license.
