@@ -9,13 +9,13 @@ class AccountAggregate
     @amount = amount.to_f
   end
 
+  def to_s
+    "Account: `#{user}` | Balance: #{amount}"
+  end
+
   def copy(**args)
     new_args = {user: user, amount: amount}.merge(args)
     self.class.new(new_args)
-  end
-
-  def to_s
-    "Account: `#{user}` | Balance: #{amount}"
   end
 end
 
@@ -27,19 +27,18 @@ end
 
 class CreateAccount < BaseEvent
   attr_reader :user
-
   STARTING_AMOUNT = 0
 
   def initialize(user)
     @user = user
   end
 
-  def apply
+  def apply(_aggregate = nil)
     puts "opening a new account for #{user}"
     AccountAggregate.new(user: user, amount: STARTING_AMOUNT)
   end
 end
-
+ 
 class AddToAccount < BaseEvent
   attr_reader :amount
   def initialize(amount)
@@ -66,12 +65,18 @@ end
 
 # require('./simple_es.rb')
 # => true
-e1 = CreateAccount.new('erik')
 # => #<CreateAccount:0x00007f8bb11675d0 @user="erik">
+e1 = CreateAccount.new('erik')
 e2 = AddToAccount.new(50)
-# => #<AddToAccount:0x00007f8bb117cd90 @amount=50>
 e3 = SubtractFromAccount.new(42)
-# => #<SubtractFromAccount:0x00007f8b8781e1a0 @amount=42>
-account = [e1, e2, e3].inject(nil) { |aggregate, event| event.apply(aggregate) }
-# => #<AccountAggregate:0x00007f8bb11a75b8 @amount=8, @user="erik">
+account = [e1, e2, e3].inject(nil) do |aggregate, event|
+  event.apply(aggregate)
+end
 puts account
+`opening a new account for erik`
+`adding 50 to erik's account`
+`subtracting 42 from erik's account`
+<AccountAggregate:0x00007f8bb11a75b8 @amount=8, @user="erik">
+
+# => #<AddToAccount:0x00007f8bb117cd90 @amount=50>
+# => #<SubtractFromAccount:0x00007f8b8781e1a0 @amount=42>
