@@ -1,11 +1,11 @@
 class EventsController < Grape::API
-#   This route isn't intended as a permanent (or well-written) piece of API
+  #   This route isn't intended as a permanent (or well-written) piece of API
   desc 'create an event directly '
   params do
-# EX: {
-# 	   "type": "TodoList::Created",
-# 		  "body": { "name": "Eriks todos" }
-#     }
+    #   EX: {
+    #        "type": "TodoList::Created",
+    #        "body": { "name": "Eriks todos" }
+    #       }
     requires :type, type: String, desc: 'A deserializeable event class (Minus `Events::`)'
     requires :body, type: Hash, desc: 'keyword args for the event constructor'
   end
