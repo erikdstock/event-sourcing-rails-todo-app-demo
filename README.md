@@ -1,11 +1,11 @@
-# Event Sourcing on Rails - Demo app
+# Event Sourcing on Rails - Peer learning group
 
-We've put together a minimal Event Sourcing framework to power
-https://d.rip and we [wrote about it](https://kickstarter.engineering/event-sourcing-made-simple-4a2625113224) on the [kickstarter engineering blog](https://kickstarter.engineering/event-sourcing-made-simple-4a2625113224).
+A fork of kickstarter's minimal event sourcing framework example app (based on their [blog post](https://kickstarter.engineering/event-sourcing-made-simple-4a2625113224)) for use with a peer learning group. At outset this repo contains
 
-This is a working demo application. The ~300 lines of code
-making the Event Sourcing framework are under
-[`app/models/lib`](https://github.com/pcreux/event-sourcing-rails-todo-app-demo/tree/master/app/models/lib).
+- Kickstarter's initial app
+- Rspec for testing
+- Rubocop config to pacify my text editor
+- [Grape API](https://github.com/ruby-grape/grape), initially with a single `POST /api/events` route.
 
 This code is for educational purpose.
 
