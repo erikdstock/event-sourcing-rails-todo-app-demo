@@ -11,7 +11,7 @@ A fork of kickstarter's minimal event sourcing framework example app (based on t
 
 Some things you can do right now:
 
-```sh
+```
 bundle
 bundle exec rake db:setup
 bundle exec rails s
