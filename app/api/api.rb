@@ -4,4 +4,5 @@ class API < Grape::API
 
   mount EventsController
   mount ListsController
+  mount CommandsController
 end
