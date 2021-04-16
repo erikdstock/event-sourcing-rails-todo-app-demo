@@ -3,6 +3,7 @@
 module Commands
   class TodoItem::Create
     include Lib::Command
+    validates_presence_of :name
 
     attributes :todo_list, :name, :metadata
 
